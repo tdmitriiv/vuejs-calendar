@@ -1,22 +1,49 @@
 <template>
     <div>
-        <div v-for="week in weeks">
-            week
-            <div v-for="day in week">{{ day }}</div>
+        <div id="header">
+            <div>
+                <h1>Vue.js Calendar</h1>
+            </div>
+            <div>
+                <current-month></current-month>
+            </div>
         </div>
+        <div id="day-bar">
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+            <div>Sun</div>
+        </div>
+        <div id="calendar">
+            <div v-for="week in weeks" class="calendar-week">
+                <calendar-day v-for="day in week" :day="day"></calendar-day>
+            </div>
+        </div>
+        <event-modal></event-modal>
     </div>
 </template>
 
 <script>
+  import CalendarDay from './CalendaryDay.vue';
+  import CurrentMonth from "./CurrentMonth.vue";
+  import EventModal from "./EventModal.vue";
   export default {
     name: "app",
-    data () {
-      return {
-        month: 11,
-        year: 2018
-      }
+    components: {
+      CurrentMonth,
+      CalendarDay,
+      EventModal
     },
     computed: {
+      month() {
+        return this.$store.state.currentMonth;
+      },
+      year() {
+        return this.$store.state.currentYear;
+      },
       days () {
 
         // generation all days
@@ -60,9 +87,6 @@
         }
         return weeks
       }
-    },
-    created() {
-      console.log(this.$moment)
     }
   }
 </script>
